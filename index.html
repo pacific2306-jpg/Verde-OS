@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verde | Design Your Discipline</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Manrope', sans-serif; background-color: #050505; color: white; overflow-x: hidden; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Noise Texture */
+        .bg-noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        
+        /* Glassmorphism */
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-nav { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+        /* Text Gradients */
+        .text-gradient { background: linear-gradient(to right, #a78bfa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="bg-noise"></div>
+    
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="sprout" class="w-6 h-6 text-emerald-400"></i>
+                <span class="font-serif font-bold text-xl tracking-wide">VERDE</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#features" class="hover:text-white transition">Features</a>
+                <a href="#protocol" class="hover:text-white transition">Protocol 100</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+            </div>
+            <a href="index.html" class="bg-white text-black px-5 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition">Launch App</a>
+        </div>
+    </nav>
+
+    <section class="relative z-10 pt-40 pb-20 text-center px-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] uppercase tracking-widest text-emerald-400 mb-6">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> v2.0 Sovereign Edition Available
+        </div>
+        <h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">
+            Master Your <br> <span class="text-gradient">Internal Algorithm.</span>
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            The minimalist habit tracker for high-performers. <br>
+            No clutter. Just data, discipline, and deep work.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <a href="index.html" class="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-gray-200 transition shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                Start Free
+            </a>
+            <a href="#pricing" class="w-full md:w-auto border border-white/20 px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white/5 transition flex items-center gap-2 justify-center">
+                <i data-lucide="crown" class="w-4 h-4 text-amber-400"></i> Get Sovereign
+            </a>
+        </div>
+        
+        <div class="mt-20 relative max-w-5xl mx-auto animate-float">
+            <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-emerald-600 rounded-2xl blur opacity-30"></div>
+            <div class="relative glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl p-10 flex items-center justify-center h-96">
+                <p class="text-white font-serif text-2xl uppercase tracking-widest opacity-50">App Interface Preview</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="relative z-10 py-24 px-6 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-serif text-center mb-16">The Sovereign Stack</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-8 rounded-2xl md:col-span-2 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-50 transition"><i data-lucide="timer" class="w-24 h-24"></i></div>
+                <h3 class="text-xl font-bold mb-2">Deep Focus Timer</h3>
+                <p class="text-gray-400 text-sm max-w-sm">Built-in Pomodoro protocols to induce flow state. Track work sessions alongside your habits.</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-emerald-500/20">
+                <h3 class="text-xl font-bold mb-2 text-emerald-400">Data Intelligence</h3>
+                <p class="text-gray-400 text-sm">Visual heatmaps and velocity charts. See your consistency in real-time.</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold mb-2">Daily Manifesto</h3>
+                <p class="text-gray-400 text-sm">A stoic journaling interface. Log your mission at dawn, review your victory at dusk.</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl md:col-span-2 border-red-500/20 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-r from-red-900/10 to-transparent"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <i data-lucide="shield-alert" class="text-red-500"></i>
+                        <h3 class="text-xl font-bold text-white">Protocol 100</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-md">The ultimate discipline challenge. Define 4 non-negotiable rules. 100 Days. If you miss one, it resets to zero. No mercy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="relative z-10 py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-serif text-center mb-4">Invest in Yourself</h2>
+            <p class="text-gray-400 text-center mb-12 text-sm uppercase tracking-widest">Simple pricing. Lifetime access.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                
+                <div class="glass-card p-8 rounded-2xl text-center opacity-70 hover:opacity-100 transition">
+                    <h3 class="text-xl font-bold mb-2">Initiate</h3>
+                    <div class="text-3xl font-serif mb-6">₹0</div>
+                    <ul class="text-left text-sm text-gray-400 space-y-4 mb-8 pl-8">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Habit Dashboard</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Basic Streak Counter</li>
+                        <li class="flex gap-2"><i data-lucide="x" class="w-4 h-4 text-gray-600"></i> No Analytics</li>
+                        <li class="flex gap-2"><i data-lucide="x" class="w-4 h-4 text-gray-600"></i> No Protocol 100</li>
+                    </ul>
+                    <a href="index.html" class="block w-full border border-white/20 py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-white/5 transition">Use Free</a>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl text-center border border-emerald-500/50 shadow-[0_0_40px_rgba(16,185,129,0.1)] relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full bg-emerald-500 text-black text-[10px] font-bold uppercase py-1">Best Value</div>
+                    <h3 class="text-xl font-bold mb-2 mt-4 text-emerald-400">Sovereign</h3>
+                    <div class="text-5xl font-serif mb-6">₹19</div>
+                    <p class="text-xs text-gray-500 mb-6 uppercase tracking-widest">One-time payment. Lifetime.</p>
+                    
+                    <ul class="text-left text-sm text-gray-300 space-y-4 mb-8 pl-8">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> <b>Protocol 100 (Iron Mode)</b></li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Advanced Analytics & Heatmaps</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Focus Timer & Journal</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> PWA (Install on Phone/PC)</li>
+                    </ul>
+                    
+                    <button onclick="revealKey()" id="buy-btn" class="w-full bg-white text-black py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition shadow-glow flex items-center justify-center gap-2">
+                        Get Instant Access
+                    </button>
+                    
+                    <div id="success-message" class="hidden mt-4 p-4 bg-emerald-900/30 border border-emerald-500/30 rounded-lg animate-float">
+                        <p class="text-xs text-emerald-400 mb-2 font-bold uppercase tracking-widest">Access Granted</p>
+                        <p class="text-[10px] text-gray-400">Your License Key:</p>
+                        <div class="text-2xl font-mono font-bold text-white select-all my-2">VERDE19</div>
+                        <p class="text-[10px] text-gray-500">1. Launch App <br> 2. Go to any Locked Feature <br> 3. Enter Code to Unlock.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-600 text-xs border-t border-white/5">
+        <p>&copy; 2026 Verde Systems. Designed for Discipline.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // SIMULATED PAYMENT LOGIC (TEST MODE)
+        function revealKey() {
+            const btn = document.getElementById('buy-btn');
+            
+            // 1. Show Loading
+            btn.innerHTML = "Processing...";
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            // 2. Simulate Network Delay (1.5s)
+            setTimeout(() => {
+                // 3. Hide Button & Show Key
+                btn.classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

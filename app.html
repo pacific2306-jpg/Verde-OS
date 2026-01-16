@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verde | Sovereign Edition</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://api.iconify.design/lucide:sprout.svg?color=%2334d399">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(() => console.log('Verde OS Secured'))
+                    .catch((err) => console.log('Install Error', err));
+            });
+        }
+    </script>
+</head>
+<body class="bg-black text-white antialiased overflow-hidden selection:bg-emerald-500/30">
+
+    <div id="app-loader" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center">
+        <div class="relative w-24 h-24 mb-8">
+            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full animate-pulse-fast filter drop-shadow-[0_0_20px_rgba(124,58,237,0.6)]">
+                <path d="M20 20 L 50 85 L 80 20" stroke="#7c3aed" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 5 45 L 30 45 L 38 30 L 48 65 L 58 25 L 68 45 L 95 45" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+        <h1 class="text-2xl font-serif font-bold tracking-[0.5em] text-white mb-4 animate-fade-in-up">VERDE OS</h1>
+        <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-violet-600 to-emerald-500 w-0 animate-loader"></div>
+        </div>
+        <p class="text-[10px] text-gray-500 mt-4 tracking-widest uppercase">Initializing Systems...</p>
+    </div>
+
+    <div class="bg-noise"></div>
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-violet-900/10 rounded-full blur-[150px] animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-emerald-900/10 rounded-full blur-[150px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+    </div>
+
+    <div class="flex h-screen relative z-50">
+        
+        <aside class="w-20 md:w-64 glass-border border-r border-white/5 flex flex-col justify-between py-8 z-50 transition-all duration-300">
+            <div class="flex flex-col items-center md:items-start px-0 md:px-6">
+                <div class="flex items-center gap-3 mb-10 w-full justify-center md:justify-start">
+                    <div class="w-10 h-10 relative flex items-center justify-center filter drop-shadow-[0_0_10px_rgba(167,139,250,0.5)]">
+                        <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+                            <defs><linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#34d399"/></linearGradient></defs>
+                            <path d="M20 20 L 50 85 L 80 20" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 5 45 L 30 45 L 38 30 L 48 65 L 58 25 L 68 45 L 95 45" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="hidden md:block font-serif text-2xl tracking-wide font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-emerald-400">VERDE</span>
+                </div>
+
+                <nav class="space-y-2 w-full">
+                    <button onclick="switchTab('dashboard')" class="nav-btn active w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white"><i data-lucide="layout-grid" class="w-5 h-5"></i><span class="hidden md:block text-sm">Dashboard</span></button>
+                    
+                    <button onclick="checkFeatureAccess('focus')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white group relative">
+                        <i data-lucide="timer" class="w-5 h-5"></i><span class="hidden md:block text-sm">Focus</span>
+                        <i data-lucide="lock" class="w-3 h-3 text-red-500 absolute top-3 right-3 md:right-auto md:left-24" id="lock-focus"></i>
+                    </button>
+                    
+                    <button onclick="checkFeatureAccess('challenge')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white group relative">
+                        <i data-lucide="skull" class="w-5 h-5 group-hover:text-red-500"></i><span class="hidden md:block text-sm group-hover:text-red-200">Protocol 100</span>
+                        <i data-lucide="lock" class="w-3 h-3 text-red-500 absolute top-3 right-3 md:right-auto md:left-36" id="lock-challenge"></i>
+                    </button>
+                    
+                    <button onclick="checkFeatureAccess('analytics')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white group relative">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5"></i><span class="hidden md:block text-sm">Intelligence</span>
+                        <i data-lucide="lock" class="w-3 h-3 text-red-500 absolute top-3 right-3 md:right-auto md:left-32" id="lock-analytics"></i>
+                    </button>
+                    
+                    <button onclick="checkFeatureAccess('journal')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white group relative">
+                        <i data-lucide="book" class="w-5 h-5"></i><span class="hidden md:block text-sm">Manifesto</span>
+                        <i data-lucide="lock" class="w-3 h-3 text-red-500 absolute top-3 right-3 md:right-auto md:left-32" id="lock-journal"></i>
+                    </button>
+                    
+                    <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-gray-400 hover:text-white"><i data-lucide="settings" class="w-5 h-5"></i><span class="hidden md:block text-sm">Settings</span></button>
+                </nav>
+            </div>
+            
+            <div class="px-2 md:px-6">
+                <div class="glass-card p-3 rounded-xl flex items-center gap-3 spotlight-card cursor-pointer">
+                    <div class="w-8 h-8 rounded-full bg-gray-700 overflow-hidden border border-white/20"><img id="profile-img" src="" alt="User"></div>
+                    <div class="hidden md:block overflow-hidden"><p id="nav-username" class="text-xs font-bold text-white truncate">User</p><p class="text-[10px] text-emerald-400 uppercase tracking-widest">Online</p></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-12 relative z-50">
+            <section id="dashboard" class="tab-content fade-in-up">
+                <header class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <p id="current-date-display" class="text-emerald-400 font-bold tracking-widest text-xs uppercase">SYNCING...</p>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-serif text-white leading-tight">Design Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-emerald-400">Discipline.</span></h1>
+                    </div>
+                    <button onclick="openAddHabitModal()" class="flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition shadow-glow text-sm"><i data-lucide="plus" class="w-4 h-4"></i> New Habit</button>
+                </header>
+                <div id="empty-state" class="hidden flex-col items-center justify-center h-64 border border-dashed border-white/10 rounded-2xl mb-8 bg-white/5">
+                    <div class="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4 text-emerald-400"><i data-lucide="sprout" class="w-8 h-8"></i></div>
+                    <h3 class="text-xl font-serif text-white mb-2">Begin Your Journey</h3>
+                    <button onclick="openAddHabitModal()" class="text-xs uppercase tracking-widest border-b border-emerald-500 text-emerald-400 pb-1 hover:text-white transition">Initialize</button>
+                </div>
+                <div id="dashboard-content">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="glass-card p-6 rounded-2xl spotlight-card group"><div class="text-xs text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i data-lucide="flame" class="w-4 h-4 text-orange-500 group-hover:animate-pulse"></i> Streak</div><div><span id="streak-display" class="text-4xl font-serif font-bold text-white">0</span> <span class="text-sm text-gray-500">Days</span></div></div>
+                        <div class="glass-card p-6 rounded-2xl spotlight-card"><div class="text-xs text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i data-lucide="target" class="w-4 h-4 text-emerald-400"></i> Today</div><div><span id="completion-rate" class="text-4xl font-serif font-bold text-white">0%</span></div><div class="w-full bg-gray-800 h-1 rounded-full mt-3 overflow-hidden"><div id="completion-bar" class="h-full bg-gradient-to-r from-violet-500 to-emerald-500 w-0 transition-all duration-1000"></div></div></div>
+                        <div class="glass-card p-6 rounded-2xl spotlight-card"><div class="text-xs text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i data-lucide="moon" class="w-4 h-4 text-purple-400"></i> Sleep</div><div class="flex items-end gap-2"><input type="number" id="sleep-input" placeholder="0" step="0.5" class="bg-transparent text-4xl font-serif font-bold text-white w-20 focus:outline-none border-b border-white/10 focus:border-white/50" onchange="updateSleep(this.value)"><span class="text-sm text-gray-500 mb-2">Hrs</span></div></div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 spotlight-card">
+                        <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold tracking-wide">Habit Matrix</h3><div class="text-[10px] text-gray-500 uppercase tracking-widest">Locked: Past Days</div></div>
+                        <div class="overflow-x-auto pb-2"><table class="w-full text-left border-collapse" id="habit-table"><thead><tr class="text-gray-500 text-[10px] tracking-widest border-b border-white/5"><th class="py-4 pl-4 w-48 min-w-[150px]">ROUTINE</th></tr></thead><tbody id="habit-list-body" class="text-sm"></tbody></table></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="analytics" class="tab-content hidden fade-in-up">
+                <header class="mb-10 flex flex-col md:flex-row justify-between items-end">
+                    <div><h1 class="text-4xl font-serif text-white mb-2">Data Intelligence</h1><p class="text-gray-400 text-xs tracking-[0.2em] uppercase">Performance Metrics & Trends</p></div>
+                    <div class="glass-card px-4 py-2 rounded-lg flex items-center gap-3 border border-violet-500/20 max-w-sm mt-4 md:mt-0"><i data-lucide="cpu" class="w-4 h-4 text-violet-400 animate-pulse"></i><p class="text-xs text-gray-300 italic" id="ai-insight">"Verde AI: Analyzing..."</p></div>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="glass-card p-8 rounded-2xl spotlight-card flex items-center justify-between relative overflow-hidden"><div class="z-10"><h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Monthly Mastery</h3><div class="text-4xl font-serif text-white" id="month-percent-text">0%</div></div><div class="w-32 h-32 relative"><canvas id="monthCircle"></canvas><div class="absolute inset-0 flex items-center justify-center text-xs text-emerald-500/50 font-bold">M</div></div></div>
+                    <div class="glass-card p-8 rounded-2xl spotlight-card flex items-center justify-between relative overflow-hidden"><div class="z-10"><h3 class="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Yearly Orbit</h3><div class="text-4xl font-serif text-white" id="year-percent-text">0%</div></div><div class="w-32 h-32 relative"><canvas id="yearCircle"></canvas><div class="absolute inset-0 flex items-center justify-center text-xs text-violet-500/50 font-bold">Y</div></div></div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl spotlight-card"><h3 class="text-xs font-bold mb-6 text-gray-400 uppercase tracking-widest">Discipline Velocity</h3><div class="h-64 relative w-full"><canvas id="trendChartCanvas"></canvas></div></div>
+                    <div class="glass-card p-6 rounded-2xl spotlight-card"><h3 class="text-xs font-bold mb-6 text-gray-400 uppercase tracking-widest">Consistency Map</h3><div class="grid grid-cols-7 gap-1" id="heatmap-grid"></div></div>
+                </div>
+            </section>
+
+            <section id="challenge" class="tab-content hidden fade-in-up">
+                <header class="mb-8 border-b border-red-900/30 pb-8 flex justify-between items-end">
+                    <div><h1 class="text-4xl md:text-5xl font-serif text-white mb-2">Protocol <span class="text-red-500">100</span></h1><p class="text-red-400/60 text-xs tracking-[0.2em] uppercase"><i data-lucide="lock" class="inline w-3 h-3 mr-1"></i> Strict Mode Active</p></div>
+                    <div class="text-right flex flex-col items-end gap-2">
+                        <button onclick="openProtocolModal()" class="flex items-center gap-2 border border-red-500/50 bg-red-500/5 hover:bg-red-500/20 text-red-400 px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(239,68,68,0.2)] hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] transition-all duration-300 group"><i data-lucide="sliders-horizontal" class="w-3 h-3 group-hover:rotate-180 transition-transform"></i> Edit Rules</button>
+                        <p class="text-3xl font-bold text-white"><span id="protocol-count">0</span>/100</p>
+                    </div>
+                </header>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 grid grid-cols-10 gap-2 md:gap-3" id="protocol-grid"></div>
+                    <div class="glass-card border border-red-500/10 p-6 rounded-2xl h-fit spotlight-card"><h3 class="text-red-500 font-bold uppercase tracking-widest mb-6 text-xs">Non-Negotiables</h3><ul class="space-y-4 text-sm text-gray-300" id="protocol-rules-list"></ul><div class="mt-8 pt-6 border-t border-white/5"><p class="text-[10px] text-gray-500 italic">"Miss a day? The counter resets."</p></div></div>
+                </div>
+            </section>
+
+            <section id="focus" class="tab-content hidden fade-in-up">
+                <div class="flex flex-col items-center justify-center min-h-[60vh]">
+                    <h1 class="text-4xl font-serif text-white mb-8">Deep Work Protocol</h1>
+                    <div class="relative w-72 h-72 flex items-center justify-center mb-10"><svg class="w-full h-full transform -rotate-90"><circle cx="144" cy="144" r="130" stroke="rgba(255,255,255,0.05)" stroke-width="6" fill="none"></circle><circle id="timer-progress" cx="144" cy="144" r="130" stroke="#8b5cf6" stroke-width="6" fill="none" stroke-dasharray="816" stroke-dashoffset="0" class="transition-all duration-1000 ease-linear shadow-glow"></circle></svg><div class="absolute text-center"><div id="timer-display" class="text-6xl font-serif font-bold text-white tracking-widest tabular-nums">25:00</div></div></div>
+                    <div class="flex gap-4 mb-8"><button onclick="setTimer(25)" class="px-6 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-xs text-gray-300 uppercase tracking-widest transition">Work</button><button onclick="setTimer(5)" class="px-6 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-xs text-gray-300 uppercase tracking-widest transition">Rest</button></div>
+                    <button id="timer-btn" onclick="toggleTimer()" class="bg-white text-black px-10 py-4 rounded-full font-bold text-sm tracking-widest hover:scale-105 transition shadow-glow">START SESSION</button>
+                </div>
+            </section>
+
+            <section id="journal" class="tab-content hidden fade-in-up">
+                <header class="mb-8"><h1 class="text-4xl font-serif text-white mb-2">Daily Manifesto</h1></header>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-[60vh]">
+                    <div class="glass-card rounded-2xl p-4 overflow-y-auto custom-scrollbar md:col-span-1 spotlight-card"><h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Archive</h3><div id="journal-list" class="space-y-2"></div></div>
+                    <div class="glass-card rounded-2xl p-6 md:col-span-2 flex flex-col spotlight-card">
+                        <div class="flex justify-between items-center mb-4"><span id="journal-date" class="text-emerald-400 font-bold text-xs tracking-widest">TODAY</span><div class="flex gap-2 text-lg"><button class="hover:scale-125 transition">🔥</button><button class="hover:scale-125 transition">😐</button><button class="hover:scale-125 transition">💀</button></div></div>
+                        <textarea id="journal-input" class="flex-1 bg-transparent resize-none focus:outline-none text-gray-300 placeholder-gray-700 leading-relaxed custom-scrollbar text-sm font-serif" placeholder="What is the mission for today?"></textarea>
+                        <div class="mt-4 flex justify-end"><button onclick="saveJournalEntry()" class="text-xs bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 transition">SAVE ENTRY</button></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings" class="tab-content hidden fade-in-up">
+                <header class="mb-10"><h1 class="text-4xl font-serif text-white">System</h1></header>
+                <div class="max-w-xl glass-card rounded-2xl p-8 space-y-8 spotlight-card">
+                    <div><label class="block text-xs text-gray-500 mb-2 uppercase tracking-widest">Identity</label><input type="text" id="settings-name" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 transition"></div>
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4"><button onclick="exportData()" class="border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 py-3 rounded-lg text-xs uppercase tracking-widest flex items-center justify-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Export</button><button onclick="resetAllData()" class="border border-red-500/30 text-red-400 hover:bg-red-500/10 py-3 rounded-lg text-xs uppercase tracking-widest">Factory Reset</button></div>
+                    <button onclick="saveSettings()" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition text-xs uppercase tracking-widest">Save Changes</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="add-habit-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden items-center justify-center fade-in">
+        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative border border-white/10 shadow-2xl">
+            <button onclick="closeModal('add-habit-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-2xl font-serif mb-6">New Routine</h2>
+            <div class="space-y-4"><input type="text" id="new-habit-name" placeholder="E.g. Meditation" class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-emerald-500 outline-none"><button onclick="addNewHabit()" class="w-full bg-gradient-to-r from-violet-600 to-emerald-600 text-white font-bold py-4 rounded-xl shadow-glow">Add to Grid</button></div>
+        </div>
+    </div>
+    
+    <div id="protocol-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden items-center justify-center fade-in">
+        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative border border-red-500/20 shadow-2xl">
+            <button onclick="closeModal('protocol-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-2xl font-serif mb-2">Protocol Rules</h2>
+            <div class="space-y-3 mb-6"><input type="text" id="rule-1" placeholder="Rule 1" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white text-sm outline-none focus:border-red-500"><input type="text" id="rule-2" placeholder="Rule 2" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white text-sm outline-none focus:border-red-500"><input type="text" id="rule-3" placeholder="Rule 3" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white text-sm outline-none focus:border-red-500"><input type="text" id="rule-4" placeholder="Rule 4" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white text-sm outline-none focus:border-red-500"></div>
+            <button onclick="saveProtocolRules()" class="w-full bg-red-600 text-white font-bold py-3 rounded-xl shadow-[0_0_15px_rgba(220,38,38,0.5)]">Lock In Protocol</button>
+        </div>
+    </div>
+
+    <div id="premium-modal" class="hidden fixed inset-0 z-[9990] bg-black/95 flex flex-col items-center justify-center p-6 backdrop-blur-xl">
+        <div class="max-w-md w-full glass-card p-8 rounded-2xl border border-emerald-500/30 text-center relative overflow-hidden">
+            <button onclick="closeModal('premium-modal')" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="w-16 h-16 bg-gradient-to-br from-violet-600 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="crown" class="w-8 h-8 text-white"></i></div>
+            <h2 class="text-3xl font-serif text-white mb-2">Sovereign Access</h2>
+            <p class="text-gray-400 text-sm mb-6">Unlock the full Verde OS ecosystem.</p>
+            <ul class="text-left text-sm text-gray-300 space-y-3 mb-8 bg-white/5 p-4 rounded-xl border border-white/5">
+                <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> <span>Protocol 100 Iron Mode</span></li>
+                <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> <span>Data Intelligence & Heatmaps</span></li>
+                <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> <span>Focus Timer & Journal</span></li>
+            </ul>
+            <p class="text-[10px] text-gray-500 mb-4">Enter your license code obtained from the website.</p>
+            <div class="flex gap-2"><input type="text" id="license-key" placeholder="Enter Unlock Code" class="flex-1 bg-black border border-white/20 rounded-lg px-4 py-3 text-white text-sm focus:border-emerald-500 outline-none uppercase tracking-widest"><button onclick="verifyLicense()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 rounded-lg font-bold transition">UNLOCK</button></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

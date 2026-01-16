@@ -1,0 +1,13 @@
+{
+    "name": "Verde Protocol",
+    "short_name": "Verde",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#050505",
+    "theme_color": "#050505",
+    "orientation": "portrait-primary",
+    "icons": [
+        { "src": "https://api.iconify.design/lucide:sprout.svg?color=%2334d399", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+        { "src": "https://api.iconify.design/lucide:sprout.svg?color=%2334d399", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+    ]
+}
