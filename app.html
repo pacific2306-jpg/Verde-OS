@@ -183,7 +183,20 @@
                 <header class="mb-10"><h1 class="text-4xl font-serif text-white">System</h1></header>
                 <div class="max-w-xl glass-card rounded-2xl p-8 space-y-8 spotlight-card">
                     <div><label class="block text-xs text-gray-500 mb-2 uppercase tracking-widest">Identity</label><input type="text" id="settings-name" class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 transition"></div>
-                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4"><button onclick="exportData()" class="border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 py-3 rounded-lg text-xs uppercase tracking-widest flex items-center justify-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Export</button><button onclick="resetAllData()" class="border border-red-500/30 text-red-400 hover:bg-red-500/10 py-3 rounded-lg text-xs uppercase tracking-widest">Factory Reset</button></div>
+                   <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
+    
+    <button onclick="exportData()" class="border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 py-3 rounded-lg text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+        <i data-lucide="download" class="w-4 h-4"></i> Export
+    </button>
+    
+    <button onclick="resetAllData()" class="border border-red-500/30 text-red-400 hover:bg-red-500/10 py-3 rounded-lg text-xs uppercase tracking-widest">
+        Factory Reset
+    </button>
+
+    <button id="install-btn" class="col-span-2 hidden bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+        <i data-lucide="download-cloud" class="w-4 h-4"></i> Install App to Device
+    </button>
+</div>
                     <button onclick="saveSettings()" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition text-xs uppercase tracking-widest">Save Changes</button>
                 </div>
             </section>

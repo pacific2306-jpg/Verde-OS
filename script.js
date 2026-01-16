@@ -191,3 +191,59 @@ function resetAllData() { if(confirm("Reset everything?")) { localStorage.clear(
 function setTimer(m) { sfx.click(); document.getElementById('timer-display').innerText = m + ":00"; }
 function toggleTimer() { sfx.timer(); alert("Timer logic active"); }
 function updateSleep(v) { /* save */ }
+/* --- PWA INSTALLATION LOGIC --- */
+let deferredPrompt;
+const installBtn = document.getElementById('install-btn');
+
+// 1. Listen for the 'beforeinstallprompt' event
+// This event fires when the browser decides the app is "installable"
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing automatically on mobile
+    e.preventDefault();
+    
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    
+    // Update UI: Reveal the Install button in Settings
+    if(installBtn) {
+        installBtn.classList.remove('hidden'); // Show the button
+        installBtn.classList.add('flex');      // Ensure proper display
+        
+        console.log("Install prompt captured. Button visible.");
+    }
+});
+
+// 2. Add Click Listener to our Button
+if(installBtn) {
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+            console.log("No install prompt available."); 
+            return;
+        }
+
+        // Show the browser's install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to install prompt: ${outcome}`);
+        
+        // We've used the prompt, so clear it
+        deferredPrompt = null;
+        
+        // Hide the button if they accepted the install
+        if(outcome === 'accepted') {
+            installBtn.classList.add('hidden');
+        }
+    });
+}
+
+// 3. Listen for successful install completion
+window.addEventListener('appinstalled', () => {
+    // Hide the button immediately if the app is successfully installed
+    if(installBtn) installBtn.classList.add('hidden');
+    
+    // Clear the prompt variable
+    deferredPrompt = null;
+    console.log('Verde OS was successfully installed.');
+});
